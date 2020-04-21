@@ -17,8 +17,8 @@
 */
 /**************************************************************************/
 
-#ifndef Adafruit_ADXL345_h
-#define Adafruit_ADXL345_h
+#ifndef ADAFRUIT_ADXL345_U_H
+#define ADAFRUIT_ADXL345_U_H
 
 #if ARDUINO >= 100
  #include "Arduino.h"
@@ -32,7 +32,7 @@
 /*=========================================================================
     I2C ADDRESS/BITS
     -----------------------------------------------------------------------*/
-    #define ADXL345_DEFAULT_ADDRESS     (0x53)  // Assumes ALT address pin low
+    #define ADXL345_DEFAULT_ADDRESS         (0x53)  // Assumes ALT address pin low
 /*=========================================================================*/
 
 /*=========================================================================
@@ -73,28 +73,28 @@
 /*=========================================================================
     REGISTERS
     -----------------------------------------------------------------------*/
-    #define ADXL345_MG2G_MULTIPLIER (0.004)  // 4mg per lsb
+    #define ADXL345_MG2G_MULTIPLIER (0.00390625) // 3.90625mg per lsb
 /*=========================================================================*/
 
 /* Used with register 0x2C (ADXL345_REG_BW_RATE) to set bandwidth */
 typedef enum
 {
-  ADXL345_DATARATE_3200_HZ    = 0b1111, // 1600Hz Bandwidth   140µA IDD
-  ADXL345_DATARATE_1600_HZ    = 0b1110, //  800Hz Bandwidth    90µA IDD
-  ADXL345_DATARATE_800_HZ     = 0b1101, //  400Hz Bandwidth   140µA IDD
-  ADXL345_DATARATE_400_HZ     = 0b1100, //  200Hz Bandwidth   140µA IDD
-  ADXL345_DATARATE_200_HZ     = 0b1011, //  100Hz Bandwidth   140µA IDD
-  ADXL345_DATARATE_100_HZ     = 0b1010, //   50Hz Bandwidth   140µA IDD
-  ADXL345_DATARATE_50_HZ      = 0b1001, //   25Hz Bandwidth    90µA IDD
-  ADXL345_DATARATE_25_HZ      = 0b1000, // 12.5Hz Bandwidth    60µA IDD
-  ADXL345_DATARATE_12_5_HZ    = 0b0111, // 6.25Hz Bandwidth    50µA IDD
-  ADXL345_DATARATE_6_25HZ     = 0b0110, // 3.13Hz Bandwidth    45µA IDD
-  ADXL345_DATARATE_3_13_HZ    = 0b0101, // 1.56Hz Bandwidth    40µA IDD
-  ADXL345_DATARATE_1_56_HZ    = 0b0100, // 0.78Hz Bandwidth    34µA IDD
-  ADXL345_DATARATE_0_78_HZ    = 0b0011, // 0.39Hz Bandwidth    23µA IDD
-  ADXL345_DATARATE_0_39_HZ    = 0b0010, // 0.20Hz Bandwidth    23µA IDD
-  ADXL345_DATARATE_0_20_HZ    = 0b0001, // 0.10Hz Bandwidth    23µA IDD
-  ADXL345_DATARATE_0_10_HZ    = 0b0000  // 0.05Hz Bandwidth    23µA IDD (default value)
+  ADXL345_DATARATE_3200_HZ    = 0b1111, // 1600Hz Bandwidth   140ÂµA IDD
+  ADXL345_DATARATE_1600_HZ    = 0b1110, //  800Hz Bandwidth    90ÂµA IDD
+  ADXL345_DATARATE_800_HZ     = 0b1101, //  400Hz Bandwidth   140ÂµA IDD
+  ADXL345_DATARATE_400_HZ     = 0b1100, //  200Hz Bandwidth   140ÂµA IDD
+  ADXL345_DATARATE_200_HZ     = 0b1011, //  100Hz Bandwidth   140ÂµA IDD
+  ADXL345_DATARATE_100_HZ     = 0b1010, //   50Hz Bandwidth   140ÂµA IDD
+  ADXL345_DATARATE_50_HZ      = 0b1001, //   25Hz Bandwidth    90ÂµA IDD
+  ADXL345_DATARATE_25_HZ      = 0b1000, // 12.5Hz Bandwidth    60ÂµA IDD
+  ADXL345_DATARATE_12_5_HZ    = 0b0111, // 6.25Hz Bandwidth    50ÂµA IDD
+  ADXL345_DATARATE_6_25HZ     = 0b0110, // 3.13Hz Bandwidth    45ÂµA IDD
+  ADXL345_DATARATE_3_13_HZ    = 0b0101, // 1.56Hz Bandwidth    40ÂµA IDD
+  ADXL345_DATARATE_1_56_HZ    = 0b0100, // 0.78Hz Bandwidth    34ÂµA IDD
+  ADXL345_DATARATE_0_78_HZ    = 0b0011, // 0.39Hz Bandwidth    23ÂµA IDD
+  ADXL345_DATARATE_0_39_HZ    = 0b0010, // 0.20Hz Bandwidth    23ÂµA IDD
+  ADXL345_DATARATE_0_20_HZ    = 0b0001, // 0.10Hz Bandwidth    23ÂµA IDD
+  ADXL345_DATARATE_0_10_HZ    = 0b0000  // 0.05Hz Bandwidth    23ÂµA IDD (default value)
 } dataRate_t;
 
 /* Used with register 0x31 (ADXL345_REG_DATA_FORMAT) to set g range */
@@ -111,7 +111,7 @@ class Adafruit_ADXL345_Unified : public Adafruit_Sensor {
   Adafruit_ADXL345_Unified(int32_t sensorID = -1);
   Adafruit_ADXL345_Unified(uint8_t clock, uint8_t miso, uint8_t mosi, uint8_t cs, int32_t sensorID = -1);
 
-  bool       begin(uint8_t addr = ADXL345_DEFAULT_ADDRESS);
+  bool       begin(uint8_t addr = ADXL345_DEFAULT_ADDRESS, uint8_t sda = SDA, uint8_t scl = SCL);
   void       setRange(range_t range);
   range_t    getRange(void);
   void       setDataRate(dataRate_t dataRate);
@@ -125,6 +125,14 @@ class Adafruit_ADXL345_Unified : public Adafruit_Sensor {
   int16_t    read16(uint8_t reg);
 
   int16_t    getX(void), getY(void), getZ(void);
+
+  void       setActThresh(uint8_t thresh);
+  void       setActInactCTL(uint8_t mask);
+  void       intEnable();
+  void       intDisable();
+  uint8_t    readIntState();
+  void       setDataFormat(uint8_t mask);
+  void       setIntMap(uint8_t mask);
  private:
 
   inline uint8_t  i2cread(void);
@@ -137,4 +145,4 @@ class Adafruit_ADXL345_Unified : public Adafruit_Sensor {
   int8_t  _i2caddr;
 };
 
-#endif  // Adafruit_ADXL345_h
+#endif // ADAFRUIT_ADXK345_U_H
