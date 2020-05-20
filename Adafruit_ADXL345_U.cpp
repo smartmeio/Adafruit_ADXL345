@@ -209,24 +209,24 @@ Adafruit_ADXL345_Unified::Adafruit_ADXL345_Unified(uint8_t clock, uint8_t miso, 
 bool Adafruit_ADXL345_Unified::begin(uint8_t i2caddr, uint8_t sda, uint8_t scl) {
   _i2caddr = i2caddr;
 
-  if (_i2c)
-  {
-    /* enable to specify I2C-pins on a ESP8266 */
-    if (sda > 0 && scl > 0)
-    {
-      Wire.begin(sda, scl);
-    } else {
-      Wire.begin();
-    }
-  }
-  else {
-    pinMode(_cs, OUTPUT);
-    digitalWrite(_cs, HIGH);
-    pinMode(_clk, OUTPUT);
-    digitalWrite(_clk, HIGH);
-    pinMode(_do, OUTPUT);
-    pinMode(_di, INPUT);
-  }
+  // if (_i2c)
+  // {
+  //   /* enable to specify I2C-pins on a ESP8266 */
+  //   if (sda > 0 && scl > 0)
+  //   {
+  //     Wire.begin(sda, scl);
+  //   } else {
+  //     Wire.begin();
+  //   }
+  // }
+  // else {
+  //   pinMode(_cs, OUTPUT);
+  //   digitalWrite(_cs, HIGH);
+  //   pinMode(_clk, OUTPUT);
+  //   digitalWrite(_clk, HIGH);
+  //   pinMode(_do, OUTPUT);
+  //   pinMode(_di, INPUT);
+  // }
 
   /* Check connection */
   uint8_t deviceid = getDeviceID();
